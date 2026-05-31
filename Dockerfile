@@ -26,6 +26,5 @@ ENV PORT=3001
 ENV DATABASE_URL=file:/data/dev.db
 
 EXPOSE 3001
-VOLUME ["/data"]
 
 ENTRYPOINT ["/entrypoint.sh"]
