@@ -13,7 +13,7 @@ export function registerAppAuth(app: FastifyInstance) {
 
     const header = req.headers.authorization;
     if (!header?.startsWith("Basic ")) {
-      reply.header("WWW-Authenticate", 'Basic realm="小猪"');
+      reply.header("WWW-Authenticate", 'Basic realm="piggy"');
       return reply.code(401).send("需要登录才能访问");
     }
 
@@ -23,7 +23,7 @@ export function registerAppAuth(app: FastifyInstance) {
     const pass = sep >= 0 ? decoded.slice(sep + 1) : "";
 
     if (user !== username || pass !== password) {
-      reply.header("WWW-Authenticate", 'Basic realm="小猪"');
+      reply.header("WWW-Authenticate", 'Basic realm="piggy"');
       return reply.code(401).send("用户名或密码不对");
     }
   });
