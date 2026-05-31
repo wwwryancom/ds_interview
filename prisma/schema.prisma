@@ -1,0 +1,112 @@
+// Piggy (小猪) - senior product/analytics DS interview prep
+// Single-user MVP: no auth/User model yet. JSON-ish list fields are stored as
+// JSON strings because SQLite has no native array type; the API layer (de)serializes them.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Question {
+  id                 String  @id // e.g. "EXP_001"
+  category           String // taxonomy category id (sql | python_coding | product_case | experiment_stats | manager)
+  subcategory        String
+  title              String
+  difficulty         String // easy | medium | hard
+  primaryWeaknessTag String
+  timeboxMinutes     Int
+  isBehavioral       Boolean @default(false)
+
+  prompt             String
+  schemaText         String? // table definitions for SQL questions
+  companyEmphasis    String // JSON: string[] of company ids
+  tags               String // JSON: string[]
+  targetSkills       String // JSON: string[]
+  expectedFramework  String // JSON: string[]
+  sampleAnswerOutline String // JSON: string[]
+  sampleStrongAnswer String
+  whatGoodLooksLike  String? // behavioral only
+  commonMistakes     String // JSON: string[]
+  scoringRubric      String // JSON: { band: string, description: string }[]
+  followUps          String // JSON: string[]
+
+  createdAt DateTime @default(now())
+
+  attempts    PracticeAttempt[]
+  mockItems   MockItem[]
+  reviewItems ReviewQueueItem[]
+}
+
+model PracticeAttempt {
+  id             Int      @id @default(autoincrement())
+  questionId     String
+  question       Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  notes          String?
+  selfScore      Int? // 0-4 rubric self score
+  reflection     String?
+  reflectionMood String? // tough | okay | good | great | excellent
+  timeSpentSec   Int?
+  aiScore        Int?
+  aiBandLabel    String?
+  aiSummary      String?
+  aiStrengths    String? // JSON: string[]
+  aiGaps         String? // JSON: string[]
+  aiMistakes     String? // JSON: string[]
+  aiNextStep     String?
+  aiMode         String?
+  aiProvider     String?
+  createdAt      DateTime @default(now())
+
+  @@index([questionId])
+  @@index([createdAt])
+}
+
+model MockSession {
+  id            Int        @id @default(autoincrement())
+  role          String
+  level         String // e.g. "Mid-level (2-5 YOE)" / "Senior"
+  durationMin   Int
+  focusAreas    String // JSON: string[] of category ids
+  interviewType String // mixed | technical | behavioral
+  startedAt     DateTime   @default(now())
+  endedAt       DateTime?
+  overallRating String? // tough | okay | good | great | excellent
+  items         MockItem[]
+}
+
+model MockItem {
+  id           Int         @id @default(autoincrement())
+  sessionId    Int
+  session      MockSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  questionId   String
+  question     Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  orderIndex   Int
+  answer       String?
+  timeSpentSec Int?
+  selfScore    Int?
+
+  @@index([sessionId])
+}
+
+model ReviewQueueItem {
+  id           Int      @id @default(autoincrement())
+  questionId   String   @unique
+  question     Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  reason       String // e.g. "low_score" | "manual"
+  intervalDays Int      @default(1)
+  dueAt        DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// Tracks daily activity for streak computation (single user).
+model ActivityDay {
+  day            String @id // YYYY-MM-DD
+  attempts       Int    @default(0)
+  mockSessions   Int    @default(0)
+  studySeconds   Int    @default(0)
+}

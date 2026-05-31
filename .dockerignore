@@ -1,0 +1,9 @@
+node_modules
+web/node_modules
+web/dist
+prisma/dev.db
+prisma/*.db-journal
+.env
+.git
+*.md
+!DEPLOY.md

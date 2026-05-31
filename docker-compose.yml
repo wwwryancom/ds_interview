@@ -1,0 +1,21 @@
+# 本地试跑生产模式，或在一台 VPS 上长期运行。
+# 数据在卷 piggy-data 里，重启 / 升级不会丢她的练习记录。
+services:
+  app:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: file:/data/dev.db
+      # 建议务必设置，浏览器会弹出登录框
+      APP_USER: piggy
+      APP_PASSWORD: ${APP_PASSWORD:?set APP_PASSWORD in .env}
+      # OPENAI_API_KEY: sk-...
+    volumes:
+      - piggy-data:/data
+    restart: unless-stopped
+
+volumes:
+  piggy-data:

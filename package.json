@@ -1,0 +1,35 @@
+{
+  "name": "piggy-interview-prep",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Backend API for 小猪 Piggy - senior product/analytics DS interview prep",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node --import tsx src/server.ts",
+    "start:prod": "NODE_ENV=production node --import tsx src/server.ts",
+    "build:web": "npm ci --prefix web && npm run build --prefix web",
+    "build": "npm run prisma:generate && npm run build:web",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:reset": "prisma db push --force-reset && tsx prisma/seed.ts",
+    "prisma:generate": "prisma generate",
+    "typecheck": "tsc --noEmit"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.2.0",
+    "@fastify/static": "^9.1.3",
+    "@prisma/client": "^5.22.0",
+    "fastify": "^5.8.5",
+    "prisma": "^5.22.0",
+    "tsx": "^4.19.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "typescript": "^5.6.3"
+  }
+}
