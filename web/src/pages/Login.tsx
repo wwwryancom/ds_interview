@@ -12,7 +12,13 @@ export function Login() {
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const next = params.get("next") || "/";
+  const rawNext = params.get("next") || "/";
+  const canReturnToNext =
+    rawNext.startsWith("/") &&
+    !rawNext.startsWith("//") &&
+    !rawNext.startsWith("/login") &&
+    !rawNext.startsWith("/logout");
+  const next = canReturnToNext ? rawNext : "/";
 
   useEffect(() => {
     if (auth.data?.username) setUsername(auth.data.username);
@@ -31,11 +37,15 @@ export function Login() {
 
     try {
       await api.login({ username, password });
-      window.location.assign(next);
+      window.location.replace(next);
     } catch (err) {
       setError("用户名或密码不对，再试一下。");
       setSubmitting(false);
     }
+  }
+
+  function logout() {
+    window.location.replace("/logout");
   }
 
   return (
@@ -96,37 +106,54 @@ export function Login() {
           </div>
 
           <form className="mt-6 space-y-4" onSubmit={onSubmit}>
-            <label className="block">
-              <div className="mini-title mb-2">用户名</div>
-              <input
-                className="input"
-                autoComplete="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </label>
-
-            <label className="block">
-              <div className="mini-title mb-2">密码</div>
-              <input
-                className="input"
-                type="password"
-                autoComplete="current-password"
-                placeholder="专属密码"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </label>
-
-            {error ? (
-              <div className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-600 ring-1 ring-rose-100">
-                {error}
+            {auth.data?.authenticated ? (
+              <div className="space-y-3">
+                <button
+                  type="button"
+                  className="btn-primary w-full justify-center py-3 text-base"
+                  onClick={() => window.location.replace(next)}
+                >
+                  进入小猪练习室
+                </button>
+                <button type="button" className="btn-ghost w-full justify-center py-3 text-sm" onClick={logout}>
+                  重新登录
+                </button>
               </div>
-            ) : null}
+            ) : (
+              <>
+                <label className="block">
+                  <div className="mini-title mb-2">用户名</div>
+                  <input
+                    className="input"
+                    autoComplete="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </label>
 
-            <button className="btn-primary w-full justify-center py-3 text-base" disabled={submitting || auth.loading}>
-              {submitting ? "小猪正在开门..." : "进入小猪练习室"}
-            </button>
+                <label className="block">
+                  <div className="mini-title mb-2">密码</div>
+                  <input
+                    className="input"
+                    type="password"
+                    autoComplete="current-password"
+                    placeholder="专属密码"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </label>
+
+                {error ? (
+                  <div className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-600 ring-1 ring-rose-100">
+                    {error}
+                  </div>
+                ) : null}
+
+                <button className="btn-primary w-full justify-center py-3 text-base" disabled={submitting || auth.loading}>
+                  {submitting ? "小猪正在开门..." : "进入小猪练习室"}
+                </button>
+              </>
+            )}
           </form>
         </section>
       </div>
