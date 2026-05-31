@@ -1,4 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { api } from "../api/client";
+import { useAsync } from "../hooks/useApi";
 import { Mascot } from "./Mascot";
 
 const links = [
@@ -9,6 +11,16 @@ const links = [
 ];
 
 export function Layout() {
+  const auth = useAsync(() => api.authStatus(), []);
+
+  async function onLogout() {
+    try {
+      await api.logout();
+    } finally {
+      window.location.assign("/login");
+    }
+  }
+
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-10 border-b border-rose-100/70 bg-cream/80 backdrop-blur">
@@ -20,22 +32,29 @@ export function Layout() {
               <div className="mt-0.5 text-[11px] font-semibold text-ink-faint">陪你准备 DS 面试</div>
             </div>
           </div>
-          <nav className="flex items-center gap-1">
-            {links.map((l) => (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                end={l.end}
-                className={({ isActive }) =>
-                  `rounded-full px-4 py-1.5 text-sm font-medium transition ${
-                    isActive ? "bg-rose-400 text-white shadow-soft" : "font-semibold text-ink-soft hover:bg-rose-50"
-                  }`
-                }
-              >
-                {l.label}
-              </NavLink>
-            ))}
-          </nav>
+          <div className="flex items-center gap-2">
+            <nav className="flex items-center gap-1">
+              {links.map((l) => (
+                <NavLink
+                  key={l.to}
+                  to={l.to}
+                  end={l.end}
+                  className={({ isActive }) =>
+                    `rounded-full px-4 py-1.5 text-sm font-medium transition ${
+                      isActive ? "bg-rose-400 text-white shadow-soft" : "font-semibold text-ink-soft hover:bg-rose-50"
+                    }`
+                  }
+                >
+                  {l.label}
+                </NavLink>
+              ))}
+            </nav>
+            {auth.data?.enabled ? (
+              <button className="btn-ghost px-3 py-1.5 text-xs" onClick={onLogout}>
+                退出
+              </button>
+            ) : null}
+          </div>
         </div>
       </header>
       <main className="mx-auto max-w-5xl px-5 py-8">

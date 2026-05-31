@@ -7,7 +7,7 @@ import { registerMockRoutes } from "./routes/mock.js";
 import { registerProgressRoutes } from "./routes/progress.js";
 import { registerReviewRoutes } from "./routes/review.js";
 import { registerAiRoutes } from "./routes/ai.js";
-import { registerAppAuth } from "./lib/auth.js";
+import { registerAppAuth, registerAuthRoutes } from "./lib/auth.js";
 import { registerWebStatic } from "./lib/static.js";
 
 export async function buildServer() {
@@ -22,6 +22,7 @@ export async function buildServer() {
 
   app.get("/api/health", async () => ({ ok: true, service: "piggy-interview-prep" }));
 
+  registerAuthRoutes(app);
   registerTaxonomyRoutes(app);
   registerQuestionRoutes(app);
   registerAttemptRoutes(app);

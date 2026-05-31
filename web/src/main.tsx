@@ -3,12 +3,14 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
 import { Practice } from "./pages/Practice";
 import { Mock } from "./pages/Mock";
 import { Progress } from "./pages/Progress";
 import "./index.css";
 
 const router = createBrowserRouter([
+  { path: "/login", element: <Login /> },
   {
     path: "/",
     element: <Layout />,

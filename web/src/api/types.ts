@@ -133,3 +133,9 @@ export interface AiStatus {
   provider: string;
   mode: "live" | "stub";
 }
+
+export interface AuthStatus {
+  enabled: boolean;
+  authenticated: boolean;
+  username: string | null;
+}

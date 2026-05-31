@@ -3,6 +3,7 @@ import type {
   AiEvaluation,
   AiFollowUp,
   AiStatus,
+  AuthStatus,
   Mood,
   Progress,
   Question,
@@ -18,6 +19,10 @@ async function req<T>(path: string, init?: RequestInit): Promise<T> {
     ...init,
   });
   if (!res.ok) {
+    if (res.status === 401 && window.location.pathname !== "/login") {
+      const next = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      window.location.assign(`/login?next=${encodeURIComponent(next)}`);
+    }
     const body = await res.text();
     throw new Error(`${res.status} ${res.statusText}: ${body}`);
   }
@@ -25,6 +30,11 @@ async function req<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  authStatus: () => req<AuthStatus>("/auth/status"),
+  login: (body: { username: string; password: string }) =>
+    req<{ ok: true; username: string | null }>("/auth/login", { method: "POST", body: JSON.stringify(body) }),
+  logout: () => req<{ ok: true }>("/auth/logout", { method: "POST" }),
+
   taxonomy: () => req<Taxonomy>("/taxonomy"),
 
   questions: (params: Record<string, string | number | boolean | undefined> = {}) => {
