@@ -61,24 +61,25 @@ export function Layout() {
         <Outlet />
       </main>
       <footer className="mx-auto max-w-5xl px-5 pb-10 pt-2">
-        <div className="grid grid-cols-2 gap-3 text-xs text-ink-soft sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            { emoji: "🔒", title: "完全私密", desc: "只有你能看到" },
-            { emoji: "💛", title: "温柔陪伴", desc: "不评判，只支持" },
-            { emoji: "🌱", title: "专注成长", desc: "每天进步一点点" },
-            { emoji: "🌙", title: "为你定制", desc: "专属你的练习空间" },
+            { emoji: "🐷", title: "呼噜一下", desc: "今天也算打卡" },
+            { emoji: "🍓", title: "慢慢拱题", desc: "不急也没关系" },
+            { emoji: "💤", title: "累了就歇", desc: "小猪不催进度" },
+            { emoji: "💗", title: "专属小窝", desc: "记录都会留着" },
           ].map((v) => (
-            <div key={v.title} className="flex items-center gap-2">
-              <span className="text-base">{v.emoji}</span>
-              <span>
-                <span className="font-medium text-ink">{v.title}</span>
-                <span className="ml-1 text-ink-faint">{v.desc}</span>
-              </span>
+            <div
+              key={v.title}
+              className="rounded-2xl bg-white/75 px-3 py-3 text-center ring-1 ring-rose-100/70"
+            >
+              <div className="text-xl">{v.emoji}</div>
+              <div className="mt-1 text-sm font-semibold text-ink">{v.title}</div>
+              <div className="mt-1 text-xs text-ink-faint">{v.desc}</div>
             </div>
           ))}
         </div>
-        <div className="mt-4 text-center text-xs text-ink-faint">
-          小步前进，明天继续就好 — 小猪
+        <div className="mt-4 text-center text-sm text-ink-faint">
+          ૮ ˶ᵔ ᵕ ᵔ˶ ა  🐽  (oink oink)
         </div>
       </footer>
     </div>

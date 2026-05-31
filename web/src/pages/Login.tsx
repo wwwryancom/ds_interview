@@ -47,33 +47,44 @@ export function Login() {
       <div className="relative mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1.05fr_0.95fr]">
         <section className="piggy-card overflow-hidden p-7 sm:p-9">
           <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-ink-soft ring-1 ring-rose-100">
-            <span>私密入口</span>
-            <span className="text-rose-400">只给小猪本人</span>
+            <span>🐷 小猪入口</span>
+            <span className="text-rose-400">轻轻敲门一下</span>
           </div>
 
           <div className="mt-5 space-y-3">
-            <h1 className="page-title">先轻轻登录一下，我们就进去练题</h1>
-            <p className="soft-copy max-w-xl">
-              这个小空间是专门为她准备的，所以入口也想做得温柔一点。进去之后，所有进度和记录都会留在里面。
-            </p>
+            <h1 className="page-title">哼唧一下，再进去练题</h1>
+            <p className="soft-copy max-w-xl">今天练一小题也算赢，小猪已经把门留好啦。</p>
           </div>
 
-          <div className="mt-8 rounded-[1.6rem] bg-rose-50/80 p-5 ring-1 ring-rose-100/70">
-            <div className="eyebrow-title">为什么不是系统弹窗</div>
-            <div className="mt-2 question-copy text-[15px] leading-7 text-ink-soft">
-              因为原生弹窗实在太不小猪了。现在这个登录页会跟主站保持同一套字体、颜色和情绪。
+          <div className="mt-8 rounded-[1.8rem] bg-rose-50/80 p-5 ring-1 ring-rose-100/70">
+            <div className="flex flex-wrap gap-2">
+              {[
+                "🐽 呼噜通过",
+                "🔐 只有你能进",
+                "💾 进度会记住",
+                "🍓 今天练一点点",
+                "🫶 不催也不凶",
+                "✨ 小猪在等你",
+              ].map((sticker) => (
+                <span
+                  key={sticker}
+                  className="rounded-full bg-white/90 px-3 py-2 text-sm font-medium text-ink-soft ring-1 ring-rose-100/80"
+                >
+                  {sticker}
+                </span>
+              ))}
             </div>
           </div>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-3">
             {[
-              ["温柔一点", "不是冷冰冰的后台工具"],
-              ["私密一点", "只有账号密码能进去"],
-              ["安心一点", "进度都保存在你的专属空间"],
+              ["🐷", "先拱一下门"],
+              ["💗", "练完会被记住"],
+              ["🌷", "慢慢来也可以"],
             ].map(([title, desc]) => (
               <div key={title} className="rounded-2xl bg-white/80 px-4 py-3 ring-1 ring-rose-100/70">
-                <div className="mini-title">{title}</div>
-                <div className="mt-1 text-sm leading-6 text-ink-faint">{desc}</div>
+                <div className="text-2xl">{title}</div>
+                <div className="mt-2 text-sm leading-6 text-ink-soft">{desc}</div>
               </div>
             ))}
           </div>
@@ -84,9 +95,7 @@ export function Login() {
 
           <div className="mt-3 text-center">
             <div className="section-title text-[1.7rem]">欢迎回来，小猪</div>
-            <p className="mt-2 text-sm leading-6 text-ink-faint">
-              不用一口气准备完全部。先进去，练一题，也算今天有在往前走。
-            </p>
+            <p className="mt-2 text-sm leading-6 text-ink-faint">进去拱一题就行，不用一次全端走。</p>
           </div>
 
           <form className="mt-6 space-y-4" onSubmit={onSubmit}>
