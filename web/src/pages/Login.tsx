@@ -48,23 +48,20 @@ export function Login() {
         <section className="piggy-card overflow-hidden p-7 sm:p-9">
           <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-ink-soft ring-1 ring-rose-100">
             <span>🐷 小猪入口</span>
-            <span className="text-rose-400">轻轻敲门一下</span>
+            <span className="text-rose-400">敲敲门</span>
           </div>
 
-          <div className="mt-5 space-y-3">
-            <h1 className="page-title">哼唧一下，再进去练题</h1>
-            <p className="soft-copy max-w-xl">今天练一小题也算赢，小猪已经把门留好啦。</p>
+          <div className="mt-5">
+            <h1 className="page-title">哼唧一下，进去练题</h1>
           </div>
 
           <div className="mt-8 rounded-[1.8rem] bg-rose-50/80 p-5 ring-1 ring-rose-100/70">
             <div className="flex flex-wrap gap-2">
               {[
                 "🐽 呼噜通过",
-                "🔐 只有你能进",
-                "💾 进度会记住",
-                "🍓 今天练一点点",
-                "🫶 不催也不凶",
-                "✨ 小猪在等你",
+                "🔐 专属入口",
+                "💾 自动记住",
+                "🍓 练一点点",
               ].map((sticker) => (
                 <span
                   key={sticker}
@@ -78,9 +75,9 @@ export function Login() {
 
           <div className="mt-7 grid gap-3 sm:grid-cols-3">
             {[
-              ["🐷", "先拱一下门"],
-              ["💗", "练完会被记住"],
-              ["🌷", "慢慢来也可以"],
+              ["🐷", "拱一下"],
+              ["💗", "记住啦"],
+              ["🌷", "慢慢来"],
             ].map(([title, desc]) => (
               <div key={title} className="rounded-2xl bg-white/80 px-4 py-3 ring-1 ring-rose-100/70">
                 <div className="text-2xl">{title}</div>
@@ -94,8 +91,8 @@ export function Login() {
           <PiggyArt src={PIGGY.reading} className="mx-auto h-40 w-full max-w-[18rem]" />
 
           <div className="mt-3 text-center">
-            <div className="section-title text-[1.7rem]">欢迎回来，小猪</div>
-            <p className="mt-2 text-sm leading-6 text-ink-faint">进去拱一题就行，不用一次全端走。</p>
+            <div className="section-title text-[1.7rem]">回来啦，小猪</div>
+            <p className="mt-2 text-sm leading-6 text-ink-faint">练一题就好。</p>
           </div>
 
           <form className="mt-6 space-y-4" onSubmit={onSubmit}>
@@ -115,7 +112,7 @@ export function Login() {
                 className="input"
                 type="password"
                 autoComplete="current-password"
-                placeholder="输入你们的专属密码"
+                placeholder="专属密码"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
