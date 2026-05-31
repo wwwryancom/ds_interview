@@ -1,4 +1,5 @@
 import type { QuestionInput } from "./mappers.js";
+import { TECHNICAL_EXPANSION_QUESTIONS } from "./seedTechnicalExpansion.js";
 
 /**
  * Phase-1 MVP seed questions transcribed from docs/ds-interview-question-draft-v2.md.
@@ -1830,5 +1831,6 @@ export const SEED_QUESTIONS: QuestionInput[] = [
       "How would you extend this to estimate the sample size needed for 80% power?",
       "How would you adapt it to a continuous metric instead of a proportion?"
     ]
-  }
+  },
+  ...TECHNICAL_EXPANSION_QUESTIONS
 ];
