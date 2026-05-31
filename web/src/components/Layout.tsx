@@ -13,12 +13,8 @@ const links = [
 export function Layout() {
   const auth = useAsync(() => api.authStatus(), []);
 
-  async function onLogout() {
-    try {
-      await api.logout();
-    } finally {
-      window.location.assign("/login");
-    }
+  function onLogout() {
+    window.location.assign("/logout");
   }
 
   return (

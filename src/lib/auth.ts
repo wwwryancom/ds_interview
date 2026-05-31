@@ -64,6 +64,7 @@ function clearAuthCookie(reply: FastifyReply, secure: boolean) {
 function isPublicPath(path: string) {
   return (
     path === "/login" ||
+    path === "/logout" ||
     path === "/api/health" ||
     path === "/api/auth/status" ||
     path === "/api/auth/login" ||
@@ -113,6 +114,12 @@ export function registerAuthRoutes(app: FastifyInstance) {
     const config = readConfig();
     clearAuthCookie(reply, config?.secure ?? false);
     return { ok: true };
+  });
+
+  app.get("/logout", async (_req, reply) => {
+    const config = readConfig();
+    clearAuthCookie(reply, config?.secure ?? false);
+    return reply.redirect("/login");
   });
 }
 

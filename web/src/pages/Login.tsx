@@ -19,7 +19,7 @@ export function Login() {
   }, [auth.data?.username]);
 
   useEffect(() => {
-    if (auth.data && (!auth.data.enabled || auth.data.authenticated)) {
+    if (auth.data && !auth.data.enabled) {
       nav(next, { replace: true });
     }
   }, [auth.data, nav, next]);
